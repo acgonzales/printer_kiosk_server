@@ -1,1 +1,1 @@
-from app.printer.printer_impl import PrinterImpl, PrinterMock
+from app.printer.printer_impl import PrinterImplSumatra, PrinterMock
