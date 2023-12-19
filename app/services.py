@@ -1,4 +1,4 @@
-from app.config import ENV
+from app.config import ENV, PROD_ENV
 
 _printer = None
 
@@ -6,7 +6,7 @@ _printer = None
 def get_printer_service():
     global _printer
     if _printer is None:
-        if ENV == "prod":
+        if ENV == PROD_ENV:
             from app.printer import PrinterImpl
             _printer = PrinterImpl()
         else:

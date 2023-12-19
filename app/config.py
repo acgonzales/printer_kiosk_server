@@ -4,4 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-ENV = os.getenv("ENV", "test")
+TEST_ENV = "test"
+PROD_ENV = "prod"
+ENV = os.getenv("ENV", TEST_ENV)
