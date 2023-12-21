@@ -36,7 +36,7 @@ class PrinterImplSumatra(Printer):
             if filename.endswith(".pdf"):
                 suffix = Path(filename).suffix
                 with (NamedTemporaryFile(delete=True, suffix=suffix)) as temp:
-                    shutil.copyfileobj(file, temp)
+                    temp.write(file.getbuffer())
                     printable_path = Path(temp.name)
                     _logger.info(
                         "Generated Temporary PDF file=%s", printable_path)
