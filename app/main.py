@@ -10,9 +10,10 @@ _logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-app.mount("/", StaticFiles(directory="html"), name="web") 
+app.mount("/", StaticFiles(directory="html"), name="web")
 
-@app.get("/status")
+
+@app.get("/api/status")
 async def get_status():
     return {
         "active": True,
@@ -20,7 +21,7 @@ async def get_status():
     }
 
 
-@app.get("/printer")
+@app.get("/api/printer")
 async def get_printer_status():
     try:
         printer = get_printer_service()
@@ -32,7 +33,7 @@ async def get_printer_status():
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@app.post("/printer")
+@app.post("/api/printer")
 async def post_printer_print(file: UploadFile, n_copies: int):
     try:
         printer = get_printer_service()
