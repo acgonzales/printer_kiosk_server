@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-
-from fastapi import UploadFile
+import io
 
 
 class Printer(ABC):
@@ -9,5 +8,5 @@ class Printer(ABC):
         pass
 
     @abstractmethod
-    def queue_print(self, file: UploadFile, n_copies: int):
+    def queue_print(self, filename: str, file: io.BytesIO, n_copies: int):
         pass

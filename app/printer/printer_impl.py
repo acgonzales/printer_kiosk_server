@@ -5,8 +5,7 @@ import shutil
 import os
 from tempfile import NamedTemporaryFile
 from pathlib import Path
-
-from fastapi import UploadFile
+import io
 
 from app.printer.printer import Printer
 
@@ -20,9 +19,9 @@ class PrinterImplSumatra(Printer):
         _logger.info("PrinterImplSumatra.get_active_printer() called.")
         return PRINTER_NAME
 
-    def queue_print(self, file: UploadFile, n_copies: int):
+    def queue_print(self, filename: str, file: io.BytesIO, n_copies: int):
         _logger.info(
-            "PrinterImplSumatra.queue_print() called. file=%s, n_copies=%s", file.filename, n_copies
+            "PrinterImplSumatra.queue_print() called. file=%s, n_copies=%s", filename, n_copies
         )
 
         sumatra_exe = os.getenv("SUMATRAPDF_EXECUTABLE")
@@ -34,10 +33,10 @@ class PrinterImplSumatra(Printer):
         success = False
 
         try:
-            if file.filename.endswith(".pdf"):
-                suffix = Path(file.filename).suffix
+            if filename.endswith(".pdf"):
+                suffix = Path(filename).suffix
                 with (NamedTemporaryFile(delete=True, suffix=suffix)) as temp:
-                    shutil.copyfileobj(file.file, temp)
+                    shutil.copyfileobj(file, temp)
                     printable_path = Path(temp.name)
                     _logger.info(
                         "Generated Temporary PDF file=%s", printable_path)
@@ -53,7 +52,7 @@ class PrinterImplSumatra(Printer):
         except Exception as e:
             _logger.exception(e)
         finally:
-            file.file.close()
+            file.close()
             return success
 
 
@@ -62,9 +61,9 @@ class PrinterMock(Printer):
         _logger.info("PrinterMock.get_active_printer() called.")
         return "Mock Printer"
 
-    def queue_print(self, file: UploadFile, n_copies: int):
+    def queue_print(self, filename: str, file: io.BytesIO, n_copies: int):
         _logger.info(
-            "PrinterMock.queue_print() called. file=%s, n_copies=%s", file.filename, n_copies
+            "PrinterMock.queue_print() called. file=%s, n_copies=%s", filename, n_copies
         )
         time.sleep(2.5)
         return True

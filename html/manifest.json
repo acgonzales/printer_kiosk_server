@@ -1,6 +1,6 @@
 {
-    "name": "printer_kiosk_app",
-    "short_name": "printer_kiosk_app",
+    "name": "print_kiosk_app",
+    "short_name": "print_kiosk_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
