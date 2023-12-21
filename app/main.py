@@ -50,7 +50,7 @@ async def get_printer_status():
 async def post_printer_print(file: Annotated[bytes, File()], filename: str, n_copies: int):
     try:
         printer = get_printer_service()
-        success = printer.queue_print(filename, BytesIO(file), n_copies)
+        success = printer.queue_print(filename, file, n_copies)
         return {
             "success": success
         }

@@ -19,7 +19,7 @@ class PrinterImplSumatra(Printer):
         _logger.info("PrinterImplSumatra.get_active_printer() called.")
         return PRINTER_NAME
 
-    def queue_print(self, filename: str, file: io.BytesIO, n_copies: int):
+    def queue_print(self, filename: str, file: bytes, n_copies: int):
         _logger.info(
             "PrinterImplSumatra.queue_print() called. file=%s, n_copies=%s", filename, n_copies
         )
@@ -36,7 +36,7 @@ class PrinterImplSumatra(Printer):
             if filename.endswith(".pdf"):
                 suffix = Path(filename).suffix
                 with (NamedTemporaryFile(delete=True, suffix=suffix)) as temp:
-                    temp.write(file.getbuffer())
+                    temp.write(file)
                     printable_path = Path(temp.name)
                     _logger.info(
                         "Generated Temporary PDF file=%s", printable_path)
