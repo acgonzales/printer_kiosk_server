@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi.staticfiles import StaticFiles
 
 from app.config import ENV
 from app.services import get_printer_service
@@ -9,6 +10,7 @@ _logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+app.mount("/", StaticFiles(directory="html"), name="web") 
 
 @app.get("/status")
 async def get_status():
